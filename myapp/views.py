@@ -73,7 +73,7 @@ class BugUpdateView(UpdateView):
     def get_queryset(self):
         queryset = super().get_queryset()
         user = self.request.user
-        if not user.is_superuser:  # Allow superusers to edit all bugs
+        if not user.is_superuser:
             queryset = queryset.filter(reported_by=user) | queryset.filter(assigned_to=user)
         return queryset
 
