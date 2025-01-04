@@ -1,0 +1,86 @@
+{% extends 'myapp/base.html' %}
+{% block content %}
+    {% include 'myapp/navbar.html' %}
+<div class="container py-4">
+    <div class="row">
+          <div class="mb-3">
+            Sort by:
+            <a href="?ordering=-priority">Priority (Low to High)</a> |
+            <a href="?ordering=priority">Priority (High to Low)</a> |
+            <a href="?ordering=status">Status</a> |
+            <a href="?ordering=created_at">Created At</a>
+        </div>
+        {% for bug in bugs %}
+            <div class="col-md-4 mb-4">
+                <div class="card bug-card">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ bug.title }}</h5>
+                        <div class="bug-details">
+                            <span class="badge rounded-pill
+                                      {% if bug.status == 'new' %}bg-info{% endif %}
+                                      {% if bug.status == 'assigned' %}bg-primary{% endif %}
+                                      {% if bug.status == 'in_progress' %}bg-warning text-dark{% endif %}
+                                      {% if bug.status == 'resolved' %}bg-success{% endif %}
+                                      {% if bug.status == 'closed' %}bg-secondary{% endif %}
+                                      {% if bug.status == 'reopened' %}bg-danger{% endif %}
+                                     ">{{ bug.get_status_display }}</span>
+
+                            <span class="badge rounded-pill
+                                       {% if bug.priority == 'low' %}bg-success{% endif %}
+                                       {% if bug.priority == 'medium' %}bg-warning text-dark{% endif %}
+                                       {% if bug.priority == 'high' %}bg-danger{% endif %}
+                                       {% if bug.priority == 'critical' %}bg-danger text-white{% endif %}
+                                      ">{{ bug.get_priority_display }}</span>
+
+                            <span class="badge rounded-pill
+                                       {% if bug.severity == 'trivial' %}bg-info{% endif %}
+                                       {% if bug.severity == 'minor' %}bg-success{% endif %}
+                                       {% if bug.severity == 'major' %}bg-warning text-dark{% endif %}
+                                       {% if bug.severity == 'blocker' %}bg-danger text-white{% endif %}
+                                      ">{{ bug.get_severity_display }}</span>
+                        </div>
+
+                        <p class="card-text mt-2">
+                            <strong>Assigned To:</strong>
+                            {% if bug.assigned_to %} {{ bug.assigned_to }} {% else %} Unassigned {% endif %}
+                        </p>
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#bugModal{{ bug.id }}">
+                            View Details
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="bugModal{{ bug.id }}" tabindex="-1" aria-labelledby="bugModalLabel{{ bug.id }}" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="bugModalLabel{{ bug.id }}">{{ bug.title }}</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <p><strong>Description:</strong> {{ bug.description }}</p>
+                            <p><strong>Status:</strong> {{ bug.get_status_display }}</p>
+                            <p><strong>Priority:</strong> {{ bug.get_priority_display }}</p>
+                            <p><strong>Severity:</strong> {{ bug.get_severity_display }}</p>
+                            <p><strong>Project:</strong> {{ bug.project }}</p>
+                            <p><strong>Reported By:</strong> {{ bug.reported_by }}</p>
+                            <p><strong>Assigned To:</strong> {% if bug.assigned_to %} {{ bug.assigned_to }} {% else %} Unassigned {% endif %}</p>
+                            <p><strong>Created At:</strong> {{ bug.created_at }}</p>
+                            <p><strong>Updated At:</strong> {{ bug.updated_at }}</p>
+
+                        </div>
+                        <div class="modal-footer">
+                            <a href="{% url 'bug_update' bug.pk %}" class="btn btn-sm btn-warning">Update</a>
+                            <a href="{% url 'bug_delete' bug.pk %}" class="btn btn-sm btn-danger">Delete</a>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+
+{% endblock %}

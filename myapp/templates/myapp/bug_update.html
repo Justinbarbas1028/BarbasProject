@@ -1,0 +1,62 @@
+{% extends 'myapp/base.html' %}
+{% block content %}
+    {% include 'myapp/navbar.html' %}
+    <div class="container py-4">
+        <h2>Update Bug Report</h2>
+        <form method="post" id="update-bug-form">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="id_title" class="form-label">Title</label>
+                {{ form.title }}
+            </div>
+            <div class="mb-3">
+                <label for="id_description" class="form-label">Description</label>
+                {{ form.description }}
+            </div>
+            <div class="mb-3">
+                <label for="id_status" class="form-label">Status</label>
+                {{ form.status }}
+            </div>
+            <div class="mb-3">
+                <label for="id_priority" class="form-label">Priority</label>
+                {{ form.priority }}
+            </div>
+            <div class="mb-3">
+                <label for="id_severity" class="form-label">Severity</label>
+                {{ form.severity }}
+            </div>
+            <div class="mb-3">
+                <label for="id_project" class="form-label">Project</label>
+                {{ form.project }}
+            </div>
+            <div class="mb-3">
+                <label for="id_assigned_to" class="form-label">Assigned To</label>
+                {{ form.assigned_to }}
+            </div>
+
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#confirmUpdateModal">
+                Update Bug
+            </button>
+
+            <div class="modal fade" id="confirmUpdateModal" tabindex="-1" aria-labelledby="confirmUpdateModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="confirmUpdateModalLabel">Confirm Update</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            Are you sure you want to update this bug report?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-primary" form="update-bug-form">Confirm Update</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+    </div>
+{% endblock %}

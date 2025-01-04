@@ -1,0 +1,20 @@
+{% extends 'myapp/base.html' %}
+{% load static %}
+{% block content %}
+    {% include 'myapp/navbar.html' %}
+
+    <div class="homepage-container">
+        <div class="text-content">
+            <h1>
+                "In a world of errors, let us be your light, <br>
+                Bug Trucker keeps your systems right. <br>
+                Track, resolve, improve with ease, <br>
+                Building solutions that truly please."
+            </h1>
+             <a href="{% url 'workspace' %}" class="btn-get-started">Get Started</a>
+        </div>
+        <div class="image-content">
+            <img src="{% static 'images/homepage-pic.png' %}" alt="Homepage Image">
+        </div>
+    </div>
+{% endblock content %}

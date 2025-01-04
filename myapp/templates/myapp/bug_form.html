@@ -1,0 +1,43 @@
+<!-- bugs/bug_form.html -->
+{% extends 'myapp/base.html' %}  <!-- Or your project's base template -->
+
+{% block content %}
+    {% include 'myapp/navbar.html' %}
+    <div class="container py-4">
+        <h2>Create New Bug Report</h2>
+        <form method="post">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="id_title" class="form-label">Title</label>
+                {{ form.title }}
+            </div>
+            <div class="mb-3">
+                <label for="id_description" class="form-label">Description</label>
+                {{ form.description }}
+            </div>
+
+            <div class="mb-3">
+                <label for="id_status" class="form-label">Status</label>
+                {{ form.status }}
+            </div>
+
+            <div class="mb-3">
+                <label for="id_priority" class="form-label">Priority</label>
+                {{ form.priority }}
+            </div>
+            <div class="mb-3">
+                <label for="id_severity" class="form-label">Severity</label>
+                {{ form.severity }}
+            </div>
+            <div class="mb-3">
+                <label for="id_project" class="form-label">Project</label>
+                {{ form.project }}
+            </div>
+            <div class="mb-3">
+                <label for="id_assigned_to" class="form-label">Assigned To</label>
+                {{ form.assigned_to }}
+            </div>
+            <button type="submit" class="btn btn-primary">Create Bug</button>
+        </form>
+    </div>
+{% endblock %}
