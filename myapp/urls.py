@@ -1,5 +1,6 @@
 from django.urls import path
-from .views import HomePageView, WorkspacePageView, BugListView, BugCreateView, ProjectBugListView, ProjectCreateView, BugUpdateView, BugDeleteView
+from .views import (HomePageView, WorkspacePageView, BugListView, BugCreateView, ProjectBugListView, ProjectCreateView,
+                    BugUpdateView, BugDeleteView, AnnouncementListView, AnnouncementCreateView, AnnouncementUpdateView, AnnouncementDeleteView)
 
 urlpatterns = [
     path('', HomePageView.as_view(), name='homepage'),
@@ -10,5 +11,13 @@ urlpatterns = [
     path('bug/create/', BugCreateView.as_view(), name='bug_create'),
     path('bugs/<int:pk>/update/', BugUpdateView.as_view(), name='bug_update'),
     path('<int:pk>/delete/', BugDeleteView.as_view(), name='bug_delete'),
+    path('announcements/', AnnouncementListView.as_view(), name='announcement_list'),
+    path('announcements/create/', AnnouncementCreateView.as_view(), name='announcement_create'),
+    path('announcement/<int:pk>/edit/', AnnouncementUpdateView.as_view(), name='announcement_edit'),
+    path('announcement/<int:pk>/delete/', AnnouncementDeleteView.as_view(), name='announcement_delete'),
+
+
+
+
 
 ]

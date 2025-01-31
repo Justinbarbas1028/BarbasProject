@@ -2,19 +2,37 @@
 {% block content %}
     {% include 'myapp/navbar.html' %}
 
-    <h1 class="text-center">PROJECT</h1>
+    <div class="container-fluid py-5 text-center" style="background: linear-gradient(135deg, #6c757d, #28a745); color: #fff;">
+        <h1 class="display-4 fw-bold" style="font-family: 'Poppins', sans-serif;">
+            PROJECT
+        </h1>
+        <p class="lead" style="font-family: 'Roboto', sans-serif;">
+            All Project Are listed here.
+        </p>
+    </div>
 
-    <div class="container py-4">
-        <div class="row">
+    <div class="container py-5">
+        <div class="row g-4">
             {% for project in projects %}
-                <div class="col-md-4 mb-4">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">{{ project.name }}</h5>
-                            <p class="card-text">{{ project.description|truncatewords:15 }}</p>
-                            <a href="{% url 'project_bugs' project.pk %}" class="btn btn-primary">View Bugs</a>
+                <div class="col-md-4">
+                    <div class="card border-0 shadow-sm h-100">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title fw-bold" style="font-family: 'Roboto', sans-serif; color: #333;">
+                                {{ project.name }}
+                            </h5>
+                            <p class="card-text text-muted" style="flex-grow: 1;">
+                                {{ project.description|truncatewords:15 }}
+                            </p>
+                            <a href="{% url 'project_bugs' project.pk %}"
+                               class="btn btn-primary btn-sm mt-auto fw-bold">
+                                View Bugs
+                            </a>
                         </div>
                     </div>
+                </div>
+            {% empty %}
+                <div class="col-12 text-center">
+                    <p class="lead text-muted">No projects found. Start creating one now!</p>
                 </div>
             {% endfor %}
         </div>

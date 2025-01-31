@@ -2,23 +2,35 @@
 
 {% block content %}
     {% include 'myapp/navbar.html' %}
-    <div class="container py-4">
-        <h2>Create New Project</h2>
-        <form method="post">
-            {% csrf_token %}
-            <div class="mb-3">
-                <label for="id_name" class="form-label">Project Name</label>
-                {{ form.name }}
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-primary text-white text-center">
+                        <h4 class="mb-0">Create New Project</h4>
+                    </div>
+                    <div class="card-body">
+                        <form method="post">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                <label for="id_name" class="form-label">Project Name</label>
+                                {{ form.name }}
+                            </div>
+                            <div class="mb-3">
+                                <label for="id_description" class="form-label">Description</label>
+                                {{ form.description }}
+                            </div>
+                            <div class="mb-3">
+                                <label for="id_members" class="form-label">Members</label>
+                                {{ form.members }}
+                            </div>
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-primary btn-lg">Create Project</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
-            <div class="mb-3">
-                <label for="id_description" class="form-label">Description</label>
-                {{ form.description }}
-            </div>
-            <div class="mb-3">
-                <label for="id_members" class="form-label">Members</label>
-                {{ form.members }}
-            </div>
-            <button type="submit" class="btn btn-primary">Create Project</button>
-        </form>
+        </div>
     </div>
 {% endblock %}

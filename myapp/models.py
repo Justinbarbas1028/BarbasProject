@@ -68,3 +68,33 @@ class BugHistory(models.Model):
 
     def __str__(self):
         return f"History for {self.bug.title} - {self.field_changed}"
+
+class Discussion(models.Model):
+    project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name="discussions")
+    title = models.CharField(max_length=255)
+    description = models.TextField(blank=True, null=True)
+    created_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name="created_discussions")
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.title
+
+
+class Message(models.Model):
+    discussion = models.ForeignKey(Discussion, on_delete=models.CASCADE, related_name="messages")
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    text = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Message by {self.author.username} in {self.discussion.title}"
+
+class Announcement(models.Model):
+    title = models.CharField(max_length=255)
+    content = models.TextField()
+    author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name="announcements")
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.title

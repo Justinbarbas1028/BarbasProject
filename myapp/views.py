@@ -1,12 +1,13 @@
+from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
-from django.views.generic import TemplateView, ListView, DeleteView
+from django.views.generic import TemplateView, ListView, DeleteView, DetailView
 from django.views.generic.edit import CreateView, UpdateView
-from .models import Bug, Project
+from .models import Bug, Project, Announcement
 from .forms import BugForm
+from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
-
 
 class HomePageView(TemplateView):
     template_name = 'myapp/homepage.html'
@@ -87,3 +88,36 @@ class BugDeleteView(DeleteView):
     model = Bug
     template_name = 'myapp/bug_confirm_delete.html'
     success_url = reverse_lazy('bug_list')
+
+class AnnouncementListView(ListView):
+    model = Announcement
+    template_name = 'myapp/Announcement.html'
+    context_object_name = 'announcements'
+    ordering = ['-created_at']
+
+    def get_ordering(self):
+        ordering = self.request.GET.get('ordering', '-created_at')
+        return ordering
+
+
+class AnnouncementCreateView(CreateView):
+    model = Announcement
+    fields = ['title', 'content']
+    template_name = 'myapp/Announcement_form.html'
+    success_url = reverse_lazy('announcement_list')
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+
+class AnnouncementUpdateView(UpdateView):
+    model = Announcement
+    fields = ['title', 'content']
+    template_name = 'myapp/Announcement_update.html'
+    success_url = reverse_lazy('announcement_list')
+
+
+class AnnouncementDeleteView(DeleteView):
+    model = Announcement
+    template_name = 'myapp/announcement_confirm_delete.html'
+    success_url = reverse_lazy('announcement_list')
