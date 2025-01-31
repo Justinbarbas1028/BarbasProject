@@ -1,0 +1,52 @@
+{% extends "myapp/base.html" %}
+
+{% block content %}
+    {% include 'myapp/navbar.html' %}
+
+    <div class="container mt-5">
+        <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-2">
+            <h1 class="display-5 fw-bold text-dark">📣 Announcements</h1>
+            <div class="btn-group">
+                <a href="?ordering=-created_at" class="btn btn-outline-primary">Newest First</a>
+                <a href="?ordering=created_at" class="btn btn-outline-secondary">Oldest First</a>
+                <a href="{% url 'announcement_create' %}" class="btn btn-success">+ Create Announcement</a>
+            </div>
+        </div>
+        <div class="row g-4">
+            {% for announcement in announcements %}
+                <div class="col-lg-4 col-md-6">
+                    <div class="card shadow border-0 h-100">
+                        <div class="card-header text-center text-white" style="background: linear-gradient(135deg, #6c63ff, #0099ff);">
+                            <h3 class="fw-bold">{{ announcement.title|slice:":1" }}</h3>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title fw-semibold text-dark">{{ announcement.title }}</h5>
+                            <p class="card-text text-muted" style="line-height: 1.5;">
+                                {{ announcement.content|truncatechars:120 }}
+                            </p>
+                        </div>
+                        <div class="card-footer bg-light d-flex justify-content-between align-items-center">
+                            <small class="text-muted">
+                                <strong>{{ announcement.author.username }}</strong>,
+                                {{ announcement.created_at|date:"F j, Y, g:i a" }}
+                            </small>
+                            <div class="d-flex justify-content-end">
+                                <a href="{% url 'announcement_edit' announcement.id %}" class="btn btn-sm btn-outline-secondary me-2">Edit</a>
+                                <form method="post" action="{% url 'announcement_delete' announcement.id %}"
+                                      onsubmit="return confirm('Are you sure you want to delete this announcement?');">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% empty %}
+                <div class="col-12 text-center py-5">
+                    <h3 class="text-muted fw-light">No announcements yet.</h3>
+                    <p class="text-secondary">Be the first to share one!</p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock content %}
